@@ -23,8 +23,9 @@ class SegundaActivity : AppCompatActivity() {
             insets
         }*/
 
-
-
+        binding.btnFechar.setOnClickListener {
+            finish()
+        }
 
     }
 }
