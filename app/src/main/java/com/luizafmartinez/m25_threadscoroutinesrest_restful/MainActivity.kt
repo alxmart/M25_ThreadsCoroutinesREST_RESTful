@@ -30,15 +30,15 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
-            MinhaThread().start()
+            //MinhaThread().start()
 
             /*val minhaThread = MinhaThread()
             minhaThread.start()  */
 
-            /*repeat(30) { indice ->
-                Log.i("info_thread", "Executando: $indice")
+            repeat(30) { indice ->
+                Log.i("info_thread", "Executando: $indice T: ${Thread.currentThread().name}")
                 Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
-            }*/
+            }
         }
 
     }
