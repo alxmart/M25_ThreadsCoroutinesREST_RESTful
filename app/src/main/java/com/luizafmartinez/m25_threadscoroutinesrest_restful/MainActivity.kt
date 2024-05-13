@@ -2,6 +2,7 @@ package com.luizafmartinez.m25_threadscoroutinesrest_restful
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 
@@ -28,9 +29,23 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnIniciar.setOnClickListener {
-
-
+            repeat(30) { indice ->
+                Log.i("info_thread", "Executando: $indice")
+                Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+            }
         }
 
     }
+
+    inner class MinhaThread : Thread() {
+        override fun run() {
+            super.run()
+
+            repeat(30) { indice ->
+                Log.i("info_thread", "Executando: $indice")
+                sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+            }
+        }
+    }
+
 }
