@@ -53,10 +53,10 @@ class MainActivity : AppCompatActivity() {
                 //binding.btnIniciar.text = "Executando"
                 runOnUiThread { // Só usar para atualizações de interface !!
                     binding.btnIniciar.text = "Executando $indice T: ${currentThread().name}"
-                    binding.btnIniciar.isEnabled = false
+                    binding.btnIniciar.isEnabled = false // Desabilita o button
                     if ( indice == 29 ) {
                         binding.btnIniciar.text = "Reiniciar Execução"
-                        binding.btnIniciar.isEnabled = true
+                        binding.btnIniciar.isEnabled = true // Habilita o botão novamente
                     }
                 }
                 sleep(1000)  // 1000 ms => 1 segundo | UI Thread
