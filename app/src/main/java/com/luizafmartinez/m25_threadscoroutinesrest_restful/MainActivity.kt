@@ -30,7 +30,14 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
-            MinhaThread().start()
+        Thread(MinhaRunnable()).start()
+
+        // ou
+        // Thread {
+        //  => some code
+        // }.start()
+
+        //MinhaThread().start()
 
             /*val minhaThread = MinhaThread()
             minhaThread.start()  */
@@ -42,6 +49,29 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
+    inner class MinhaRunnable : Runnable {
+
+        override fun run() {
+            repeat(30) { indice ->
+                Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
+                //binding.btnIniciar.text = "Executando"
+                runOnUiThread { // Só usar para atualizações de interface !!
+                    binding.btnIniciar.text = "Executando $indice T: ${Thread.currentThread().name}"
+                    binding.btnIniciar.isEnabled = false // Desabilita o button
+                    if ( indice == 29 ) {
+                        binding.btnIniciar.text = "Reiniciar Execução"
+                        binding.btnIniciar.isEnabled = true // Habilita o botão novamente
+                    }
+                }
+                Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+            }
+        }
+    }
+
+
+
+
 
     inner class MinhaThread : Thread() {
 
