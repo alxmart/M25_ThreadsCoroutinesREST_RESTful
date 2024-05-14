@@ -12,6 +12,8 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private var stopThread = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
@@ -34,7 +36,19 @@ class MainActivity : AppCompatActivity() {
 
         // ou
         // Thread {
-        //  => some code
+        //   repeat(30) { indice ->
+            //                Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
+            //                //binding.btnIniciar.text = "Executando"
+            //                runOnUiThread { // Só usar para atualizações de interface !!
+            //                    binding.btnIniciar.text = "Executando $indice T: ${currentThread().name}"
+            //                    binding.btnIniciar.isEnabled = false // Desabilita o button
+            //                    if ( indice == 29 ) {
+            //                        binding.btnIniciar.text = "Reiniciar Execução"
+            //                        binding.btnIniciar.isEnabled = true // Habilita o botão novamente
+            //                    }
+            //                }
+            //                sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+            //            }
         // }.start()
 
         //MinhaThread().start()
@@ -48,12 +62,25 @@ class MainActivity : AppCompatActivity() {
             }*/
         }
 
+        binding.btnParar.setOnClickListener {
+
+            stopThread = true
+            binding.btnIniciar.text = "Reiniciar Execução"
+            binding.btnIniciar.isEnabled = true // Habilita o botão novamente
+        }
+
     }
 
     inner class MinhaRunnable : Runnable {
 
         override fun run() {
             repeat(30) { indice ->
+
+                if ( stopThread ) {
+                    stopThread = false
+                    return
+                }
+
                 Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
                 //binding.btnIniciar.text = "Executando"
                 runOnUiThread { // Só usar para atualizações de interface !!
