@@ -49,8 +49,11 @@ class MainActivity : AppCompatActivity() {
             super.run()
 
             repeat(30) { indice ->
-                Log.i("info_thread", "Executando: $indice T: ${currentThread().name}")
-                binding.btnIniciar.text = "Executando"
+                Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
+                //binding.btnIniciar.text = "Executando"
+                runOnUiThread {
+                    binding.btnIniciar.text = "Executando $indice T: ${currentThread().name}"
+                }
                 sleep(1000)  // 1000 ms => 1 segundo | UI Thread
             }
         }
