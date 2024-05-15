@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
                         //Muda o contexto de execução p/thread principal
                         binding.btnIniciar.text = "Executou"
                     }
+
                     delay(1000)  // 1000 ms => 1 segundo | UI Thread
                     //Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
                 }
@@ -90,8 +91,14 @@ class MainActivity : AppCompatActivity() {
             binding.btnIniciar.text = "Reiniciar Execução"
             binding.btnIniciar.isEnabled = true // Habilita o botão novamente
         }
-
     }
+
+    private suspend fun recuperarUsuarioLogado(): Usuario {
+
+        delay(2000) // 2 segundos
+        return Usuario(1020,"Jamilton Damasceno")
+    }
+
 
     inner class MinhaRunnable : Runnable {
 
