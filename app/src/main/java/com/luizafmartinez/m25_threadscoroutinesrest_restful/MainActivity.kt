@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
 
-                executar()
+                dadosUsuario()
 
                 //recuperarUsuarioLogado()
 
@@ -97,7 +97,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private suspend fun executar() {
+
+
+    private suspend fun dadosUsuario() {
         val usuario = recuperarUsuarioLogado()
         Log.i("info_coroutine", "Usuario: ${usuario.nome} T: ${Thread.currentThread().name}")
         val postagens = recuperarPostagensPeloId(usuario.id)
