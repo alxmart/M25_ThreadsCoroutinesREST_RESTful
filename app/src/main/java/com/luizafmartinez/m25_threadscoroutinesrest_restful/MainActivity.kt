@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     private var stopThread = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContentView(binding.root)
@@ -32,11 +38,27 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
-        Thread(MinhaRunnable()).start()
+            CoroutineScope(Dispatchers.IO).launch {
+                repeat(15) { indice ->
+                    Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
 
-        // ou
-        // Thread {
-        //   repeat(30) { indice ->
+                    withContext(Dispatchers.Main) {
+                        //Muda o contexto de execução p/thread principal
+                        binding.btnIniciar.text = "Executou"
+                    }
+                    delay(1000)  // 1000 ms => 1 segundo | UI Thread
+                    //Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+                }
+
+                //CoroutineScope( Dispatchers.Main).launch {
+                //binding.btnIniciar.text = "Executou"
+            }
+
+            //Thread(MinhaRunnable()).start()
+
+            // ou
+            // Thread {
+            //   repeat(30) { indice ->
             //                Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
             //                //binding.btnIniciar.text = "Executando"
             //                runOnUiThread { // Só usar para atualizações de interface !!
@@ -49,9 +71,9 @@ class MainActivity : AppCompatActivity() {
             //                }
             //                sleep(1000)  // 1000 ms => 1 segundo | UI Thread
             //            }
-        // }.start()
+            // }.start()
 
-        //MinhaThread().start()
+            //MinhaThread().start()
 
             /*val minhaThread = MinhaThread()
             minhaThread.start()  */
@@ -76,7 +98,7 @@ class MainActivity : AppCompatActivity() {
         override fun run() {
             repeat(30) { indice ->
 
-                if ( stopThread ) {
+                if (stopThread) {
                     stopThread = false
                     return
                 }
@@ -86,7 +108,7 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread { // Só usar para atualizações de interface !!
                     binding.btnIniciar.text = "Executando $indice T: ${Thread.currentThread().name}"
                     binding.btnIniciar.isEnabled = false // Desabilita o button
-                    if ( indice == 29 ) {
+                    if (indice == 29) {
                         binding.btnIniciar.text = "Reiniciar Execução"
                         binding.btnIniciar.isEnabled = true // Habilita o botão novamente
                     }
@@ -95,10 +117,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
-
-
-
 
     inner class MinhaThread : Thread() {
 
@@ -111,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                 runOnUiThread { // Só usar para atualizações de interface !!
                     binding.btnIniciar.text = "Executando $indice T: ${currentThread().name}"
                     binding.btnIniciar.isEnabled = false // Desabilita o button
-                    if ( indice == 29 ) {
+                    if (indice == 29) {
                         binding.btnIniciar.text = "Reiniciar Execução"
                         binding.btnIniciar.isEnabled = true // Habilita o botão novamente
                     }
