@@ -39,7 +39,12 @@ class MainActivity : AppCompatActivity() {
         binding.btnIniciar.setOnClickListener {
 
             CoroutineScope(Dispatchers.IO).launch {
-                repeat(15) { indice ->
+
+                executar()
+
+                //recuperarUsuarioLogado()
+
+                /*repeat(15) { indice ->
                     Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
 
                     withContext(Dispatchers.Main) {
@@ -49,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
                     delay(1000)  // 1000 ms => 1 segundo | UI Thread
                     //Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
-                }
+                }*/
 
                 //CoroutineScope( Dispatchers.Main).launch {
                 //binding.btnIniciar.text = "Executou"
@@ -93,12 +98,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun executar() {
+        val usuario = recuperarUsuarioLogado()
+        Log.i("info_coroutine", "Usuario: ${usuario.nome} T: ${Thread.currentThread().name}")
+        val postagens = recuperarPostagensPeloId( usuario.id )
+        Log.i("info_coroutine", "Usuario: ${postagens.size} T: ${Thread.currentThread().name}")
+    }
+
+    private suspend fun recuperarPostagensPeloId(idUsuario: Int) : List<String> {
+        delay(2000) // 2 segundos
+        return listOf(
+            "Viagem para o Nordeste",
+            "Estudando Android"),
+            "Jantando no Restaurante"
+    }
+
     private suspend fun recuperarUsuarioLogado(): Usuario {
 
         delay(2000) // 2 segundos
         return Usuario(1020,"Jamilton Damasceno")
     }
-
 
     inner class MinhaRunnable : Runnable {
 
