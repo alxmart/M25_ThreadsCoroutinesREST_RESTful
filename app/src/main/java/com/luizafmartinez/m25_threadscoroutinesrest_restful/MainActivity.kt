@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
     private var job : Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContentView(binding.root)
@@ -40,9 +39,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnIniciar.setOnClickListener {
-
              job = CoroutineScope(Dispatchers.IO).launch {
-
                 executar()
 
                 //recuperarUsuarioLogado()
@@ -94,23 +91,21 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnParar.setOnClickListener {
-            stopThread = true
+            //stopThread = true
+            job?.cancel()
             binding.btnIniciar.text = "Reiniciar Execução"
             binding.btnIniciar.isEnabled = true // Habilita o botão novamente
         }
     }
 
     private suspend fun executar() {
-
         repeat(15) { indice ->
             Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
-
             withContext(Dispatchers.Main) {
                 //Muda o contexto de execução p/thread principal
                 binding.btnIniciar.text = "Executando: $indice T: ${Thread.currentThread().name}"
                 binding.btnIniciar.isEnabled = false // Desabilita o button
             }
-
             delay(1000)  // 1000 ms => 1 segundo | UI Thread
         }
     }
@@ -137,15 +132,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     inner class MinhaRunnable : Runnable {
-
         override fun run() {
             repeat(30) { indice ->
-
                 if (stopThread) {
                     stopThread = false
                     return
                 }
-
                 Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
                 //binding.btnIniciar.text = "Executando"
                 runOnUiThread { // Só usar para atualizações de interface !!
@@ -162,10 +154,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     inner class MinhaThread : Thread() {
-
         override fun run() {
             super.run()
-
             repeat(30) { indice ->
                 Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
                 //binding.btnIniciar.text = "Executando"
