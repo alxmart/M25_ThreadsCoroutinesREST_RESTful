@@ -7,8 +7,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private var stopThread = false
+
+    private var job : Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -37,9 +41,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
-            CoroutineScope(Dispatchers.IO).launch {
+             job = CoroutineScope(Dispatchers.IO).launch {
 
-                dadosUsuario()
+                executar()
 
                 //recuperarUsuarioLogado()
 
@@ -90,14 +94,26 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnParar.setOnClickListener {
-
             stopThread = true
             binding.btnIniciar.text = "Reiniciar Execução"
             binding.btnIniciar.isEnabled = true // Habilita o botão novamente
         }
     }
 
+    private suspend fun executar() {
 
+        repeat(15) { indice ->
+            Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
+
+            withContext(Dispatchers.Main) {
+                //Muda o contexto de execução p/thread principal
+                binding.btnIniciar.text = "Executando: $indice T: ${Thread.currentThread().name}"
+                binding.btnIniciar.isEnabled = false // Desabilita o button
+            }
+
+            delay(1000)  // 1000 ms => 1 segundo | UI Thread
+        }
+    }
 
     private suspend fun dadosUsuario() {
         val usuario = recuperarUsuarioLogado()
@@ -116,7 +132,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun recuperarUsuarioLogado(): Usuario {
-
         delay(2000) // 2 segundos
         return Usuario(1020, "Jamilton Damasceno")
     }
