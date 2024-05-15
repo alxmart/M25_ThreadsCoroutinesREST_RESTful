@@ -9,7 +9,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
@@ -101,22 +100,23 @@ class MainActivity : AppCompatActivity() {
     private suspend fun executar() {
         val usuario = recuperarUsuarioLogado()
         Log.i("info_coroutine", "Usuario: ${usuario.nome} T: ${Thread.currentThread().name}")
-        val postagens = recuperarPostagensPeloId( usuario.id )
-        Log.i("info_coroutine", "Usuario: ${postagens.size} T: ${Thread.currentThread().name}")
+        val postagens = recuperarPostagensPeloId(usuario.id)
+        Log.i("info_coroutine", "Postagens: ${postagens.size} T: ${Thread.currentThread().name}")
     }
 
-    private suspend fun recuperarPostagensPeloId(idUsuario: Int) : List<String> {
+    private suspend fun recuperarPostagensPeloId(idUsuario: Int): List<String> {
         delay(2000) // 2 segundos
         return listOf(
             "Viagem para o Nordeste",
-            "Estudando Android"),
+            "Estudando Android",
             "Jantando no Restaurante"
+        )
     }
 
     private suspend fun recuperarUsuarioLogado(): Usuario {
 
         delay(2000) // 2 segundos
-        return Usuario(1020,"Jamilton Damasceno")
+        return Usuario(1020, "Jamilton Damasceno")
     }
 
     inner class MinhaRunnable : Runnable {
