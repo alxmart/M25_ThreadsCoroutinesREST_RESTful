@@ -11,6 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.withTimeout
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,7 +43,11 @@ class MainActivity : AppCompatActivity() {
         binding.btnIniciar.setOnClickListener {
 
             job = CoroutineScope(Dispatchers.IO).launch {
-                executar()
+                withTimeout(30000L) {
+                    executar()
+                }
+            }
+
                 //recuperarUsuarioLogado()
 
                 /*repeat(15) { indice ->
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
 
                 //CoroutineScope( Dispatchers.Main).launch {
                 //binding.btnIniciar.text = "Executou"
-            }
+
 
             //Thread(MinhaRunnable()).start()
 
@@ -99,6 +104,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Parar a execução se o usuário sair da tela:
     /*override fun onStop() {
         super.onStop()
         job?.cancel()
@@ -112,7 +118,7 @@ class MainActivity : AppCompatActivity() {
                 binding.btnIniciar.text = "Executando: $indice T: ${Thread.currentThread().name}"
                 binding.btnIniciar.isEnabled = false // Desabilita o button
             }
-            delay(1000)  // 1000 ms => 1 segundo | UI Thread
+            delay(1000L)  // 1000 ms => 1 segundo | UI Thread
         }
     }
 
