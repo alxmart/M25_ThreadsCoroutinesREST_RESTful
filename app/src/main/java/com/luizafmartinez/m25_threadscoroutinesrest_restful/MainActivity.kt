@@ -99,10 +99,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStop() {
+    /*override fun onStop() {
         super.onStop()
         job?.cancel()
-    }
+    }*/
+
     private suspend fun executar() {
         repeat(15) { indice ->
             Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
