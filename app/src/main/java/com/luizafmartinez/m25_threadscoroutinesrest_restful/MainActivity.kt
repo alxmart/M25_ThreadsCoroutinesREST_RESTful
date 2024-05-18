@@ -43,11 +43,10 @@ class MainActivity : AppCompatActivity() {
         binding.btnIniciar.setOnClickListener {
 
             job = CoroutineScope(Dispatchers.IO).launch {
-                withTimeout(30000L) {
+                withTimeout(7000L) {
                     executar()
                 }
             }
-
                 //recuperarUsuarioLogado()
 
                 /*repeat(15) { indice ->
@@ -109,6 +108,26 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         job?.cancel()
     }*/
+
+    private suspend fun tarefa1() : String {
+        repeat(15) { indice ->
+            Log.i("info_coroutine", "Tarefa1: $indice T: ${Thread.currentThread().name}")
+            delay(1000L)  // 1000 ms => 1 segundo | UI Thread
+        }
+        return "Executou Tarefa 1"
+    }
+
+    private suspend fun tarefa2() : String {
+        repeat(15) { indice ->
+            Log.i("info_coroutine", "Tarefa2: $indice T: ${Thread.currentThread().name}")
+            delay(1000L)  // 1000 ms => 1 segundo | UI Thread
+        }
+        return "Executou Tarefa 2"
+    }
+
+
+
+
 
     private suspend fun executar() {
         repeat(15) { indice ->
