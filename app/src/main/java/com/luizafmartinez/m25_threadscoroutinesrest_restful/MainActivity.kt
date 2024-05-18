@@ -43,9 +43,11 @@ class MainActivity : AppCompatActivity() {
         binding.btnIniciar.setOnClickListener {
 
             job = CoroutineScope(Dispatchers.IO).launch {
+                /*
                 withTimeout(7000L) {
                     executar()
                 }
+                */
             }
                 //recuperarUsuarioLogado()
 
