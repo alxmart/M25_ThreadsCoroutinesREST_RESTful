@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
     private var job : Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         //enableEdgeToEdge()
         setContentView(binding.root)
@@ -32,16 +33,16 @@ class MainActivity : AppCompatActivity() {
             insets
         }*/
 
-        binding.BtnAbrir.setOnClickListener {
+        binding.btnAbrir.setOnClickListener {
             startActivity(
                 Intent(this, SegundaActivity::class.java)
             )
         }
 
         binding.btnIniciar.setOnClickListener {
-             job = CoroutineScope(Dispatchers.IO).launch {
-                executar()
 
+            job = CoroutineScope(Dispatchers.IO).launch {
+                executar()
                 //recuperarUsuarioLogado()
 
                 /*repeat(15) { indice ->
@@ -98,6 +99,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
+    }
     private suspend fun executar() {
         repeat(15) { indice ->
             Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
