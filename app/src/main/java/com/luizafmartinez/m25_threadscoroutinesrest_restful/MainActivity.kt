@@ -48,6 +48,11 @@ class MainActivity : AppCompatActivity() {
                     executar()
                 }
                 */
+                val resultado1 = tarefa1()
+                val resultado2 = tarefa2()
+                Log.i("info_coroutine", "Resultado1: $resultado1")
+                Log.i("info_coroutine", "Resultado2: $resultado2")
+
             }
                 //recuperarUsuarioLogado()
 
@@ -126,10 +131,6 @@ class MainActivity : AppCompatActivity() {
         }
         return "Executou Tarefa 2"
     }
-
-
-
-
 
     private suspend fun executar() {
         repeat(15) { indice ->
