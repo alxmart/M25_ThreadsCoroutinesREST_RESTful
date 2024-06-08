@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kotlinx.coroutines.withTimeout
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
-    private var stopThread = false
+    private var pararThread = false
 
-    private var job : Job? = null
+    private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,92 +33,108 @@ class MainActivity : AppCompatActivity() {
             )
         }
 
+        binding.btnParar.setOnClickListener {
+            //pararThread = true
+            job?.cancel()
+            binding.btnIniciar.text = "Reiniciar Execução"
+            binding.btnIniciar.isEnabled = true
+        }
+
         binding.btnIniciar.setOnClickListener {
 
+            //CoroutineScope( Dispatchers.Main ).launch {
             job = CoroutineScope(Dispatchers.IO).launch {
-                /*
-                withTimeout(7000L) {
-                    executar()
-                }
-                */
-                val resultado1 = tarefa1()
-                val resultado2 = tarefa2()
-                Log.i("info_coroutine", "Resultado1: $resultado1")
-                Log.i("info_coroutine", "Resultado2: $resultado2")
 
-            }
+                /*withTimeout(7000L) {
+                    executar()
+                }*/
+
+                val tempo = measureTimeMillis {
+
+                    var resultado1: String? = null
+                    var resultado2: String? = null
+
+                    launch {
+                        resultado1 = tarefa1()
+                    }
+
+                    launch {
+                        resultado2 = tarefa2()
+                    }
+
+                    Log.i("info_coroutine", "Resultado1: $resultado1")
+                    Log.i("info_coroutine", "Resultado2: $resultado2")
+                }
+                Log.i("info_coroutine", "Tempo: $tempo")
+
                 //recuperarUsuarioLogado()
 
+                //binding.btnIniciar.text = "Executou"
                 /*repeat(15) { indice ->
                     Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
 
                     withContext(Dispatchers.Main) {
-                        //Muda o contexto de execução p/thread principal
-                        binding.btnIniciar.text = "Executou"
+                        binding.btnIniciar.text = "Executando: $indice T: ${Thread.currentThread().name}"
                     }
-
-                    delay(1000)  // 1000 ms => 1 segundo | UI Thread
-                    //Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+                    //Thread.sleep(1000)
+                    delay(1000)
                 }*/
-
-                //CoroutineScope( Dispatchers.Main).launch {
-                //binding.btnIniciar.text = "Executou"
-
+            }
 
             //Thread(MinhaRunnable()).start()
 
-            // ou
-            // Thread {
-            //   repeat(30) { indice ->
-            //                Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
-            //                //binding.btnIniciar.text = "Executando"
-            //                runOnUiThread { // Só usar para atualizações de interface !!
-            //                    binding.btnIniciar.text = "Executando $indice T: ${currentThread().name}"
-            //                    binding.btnIniciar.isEnabled = false // Desabilita o button
-            //                    if ( indice == 29 ) {
-            //                        binding.btnIniciar.text = "Reiniciar Execução"
-            //                        binding.btnIniciar.isEnabled = true // Habilita o botão novamente
-            //                    }
-            //                }
-            //                sleep(1000)  // 1000 ms => 1 segundo | UI Thread
-            //            }
-            // }.start()
+            /*Thread {
+                repeat(30) { indice ->
+                    Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
+                    runOnUiThread { // Usar só para atualizações de Interface
+                        binding.btnIniciar.text = "Executando: $indice T: ${Thread.currentThread().name}"
+                        binding.btnIniciar.isEnabled = false
+                        if (indice == 29) {
+                            binding.btnIniciar.text = "Reiniciar Execução"
+                            binding.btnIniciar.isEnabled = true
+                        }
+                    }
+                    Thread.sleep(1000)
+                }
+            } .start()*/
+
+            // Thread( MinhaRunnable() ).start()
+
+            // MinhaThread().start()
+
+            /*repeat(15) { indice->
+                Log.i("info_thread", "Executando: $indice T: ${Thread.currentThread().name}")
+                Thread.sleep(1000)
+            }*/
 
             //MinhaThread().start()
 
             /*val minhaThread = MinhaThread()
-            minhaThread.start()  */
+            minhaThread.start()*/
 
-            /*repeat(30) { indice ->
-                Log.i("info_thread", "Executando: $indice T: ${Thread.currentThread().name}")
-                Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+            /*repeat(30) { indice->
+                Log.i("info_thread", "Executando: $indice")
+                Thread.sleep(1000)
             }*/
         }
 
-        binding.btnParar.setOnClickListener {
-            //stopThread = true
-            job?.cancel()
-            binding.btnIniciar.text = "Reiniciar Execução"
-            binding.btnIniciar.isEnabled = true // Habilita o botão novamente
-        }
     }
 
-    // Parar a execução se o usuário sair da tela:
     /*override fun onStop() {
         super.onStop()
         job?.cancel()
     }*/
 
-    private suspend fun tarefa1() : String {
-        repeat(15) { indice ->
+    private suspend fun tarefa1(): String {
+        repeat(3) { indice ->
             Log.i("info_coroutine", "Tarefa1: $indice T: ${Thread.currentThread().name}")
             delay(1000L)  // 1000 ms => 1 segundo | UI Thread
         }
         return "Executou Tarefa 1"
     }
 
-    private suspend fun tarefa2() : String {
-        repeat(15) { indice ->
+    private suspend fun tarefa2(): String {
+        repeat(3) { indice ->
             Log.i("info_coroutine", "Tarefa2: $indice T: ${Thread.currentThread().name}")
             delay(1000L)  // 1000 ms => 1 segundo | UI Thread
         }
@@ -128,28 +144,34 @@ class MainActivity : AppCompatActivity() {
     private suspend fun executar() {
         repeat(15) { indice ->
             Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
+
             withContext(Dispatchers.Main) {
-                //Muda o contexto de execução p/thread principal
                 binding.btnIniciar.text = "Executando: $indice T: ${Thread.currentThread().name}"
-                binding.btnIniciar.isEnabled = false // Desabilita o button
+                binding.btnIniciar.isEnabled = false
             }
-            delay(1000L)  // 1000 ms => 1 segundo | UI Thread
+            delay(1000L)
         }
     }
 
     private suspend fun dadosUsuario() {
+        //private suspend fun executar () {
+
         val usuario = recuperarUsuarioLogado()
         Log.i("info_coroutine", "Usuario: ${usuario.nome} T: ${Thread.currentThread().name}")
-        val postagens = recuperarPostagensPeloId(usuario.id)
-        Log.i("info_coroutine", "Postagens: ${postagens.size} T: ${Thread.currentThread().name}")
+
+        val postagens = recuperarPostagemPeloId(usuario.id)
+        Log.i(
+            "info_coroutine",
+            "Postagens: ${postagens.size} postagens T: ${Thread.currentThread().name}"
+        )
     }
 
-    private suspend fun recuperarPostagensPeloId(idUsuario: Int): List<String> {
+    private suspend fun recuperarPostagemPeloId(idUsuario: Int): List<String> {
         delay(2000) // 2 segundos
         return listOf(
             "Viagem para o Nordeste",
             "Estudando Android",
-            "Jantando no Restaurante"
+            "jantando restaurante"
         )
     }
 
@@ -161,21 +183,21 @@ class MainActivity : AppCompatActivity() {
     inner class MinhaRunnable : Runnable {
         override fun run() {
             repeat(30) { indice ->
-                if (stopThread) {
-                    stopThread = false
+                if (pararThread) {
+                    pararThread = false
                     return
                 }
                 Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
-                //binding.btnIniciar.text = "Executando"
-                runOnUiThread { // Só usar para atualizações de interface !!
-                    binding.btnIniciar.text = "Executando $indice T: ${Thread.currentThread().name}"
-                    binding.btnIniciar.isEnabled = false // Desabilita o button
+                runOnUiThread { // Usar só para atualizações de Interface
+                    binding.btnIniciar.text =
+                        "Executando: $indice T: ${Thread.currentThread().name}"
+                    binding.btnIniciar.isEnabled = false
                     if (indice == 29) {
                         binding.btnIniciar.text = "Reiniciar Execução"
-                        binding.btnIniciar.isEnabled = true // Habilita o botão novamente
+                        binding.btnIniciar.isEnabled = true
                     }
                 }
-                Thread.sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+                Thread.sleep(1000)
             }
         }
     }
@@ -185,16 +207,15 @@ class MainActivity : AppCompatActivity() {
             super.run()
             repeat(30) { indice ->
                 Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
-                //binding.btnIniciar.text = "Executando"
-                runOnUiThread { // Só usar para atualizações de interface !!
-                    binding.btnIniciar.text = "Executando $indice T: ${currentThread().name}"
-                    binding.btnIniciar.isEnabled = false // Desabilita o button
+                runOnUiThread { // Usar só para atualizações de Interface
+                    binding.btnIniciar.text = "Executando: $indice T: ${currentThread().name}"
+                    binding.btnIniciar.isEnabled = false
                     if (indice == 29) {
                         binding.btnIniciar.text = "Reiniciar Execução"
-                        binding.btnIniciar.isEnabled = true // Habilita o botão novamente
+                        binding.btnIniciar.isEnabled = true
                     }
                 }
-                sleep(1000)  // 1000 ms => 1 segundo | UI Thread
+                sleep(1000)
             }
         }
     }
