@@ -7,7 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -24,6 +26,11 @@ class MainActivity : AppCompatActivity() {
 
     private var job: Job? = null
 
+    override fun onDestroy() {
+        super.onDestroy()
+        job?.cancel()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
@@ -32,6 +39,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 Intent(this, SegundaActivity::class.java)
             )
+            finish()
         }
 
         binding.btnParar.setOnClickListener {
@@ -43,17 +51,29 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
-            //CoroutineScope( Dispatchers.Main ).launch {
-            job = CoroutineScope(Dispatchers.IO).launch {
+            //CoroutineScope(Dispatchers.Main).launch {
+            //MainScope().launch {
+            //CoroutineScope(Dispatchers.IO).launch {
+            GlobalScope.launch {
+                repeat(15) { indice ->
+                    //binding.btnIniciar.text = "Executando: $indice"
+                    Log.i("info_coroutine", "Executando: $it T: ${Thread.currentThread().name}")
+                    delay(1000L)
+                }
+            }
 
-                /*withTimeout(7000L) {
+            //CoroutineScope( Dispatchers.Main ).launch {
+
+            /*job = CoroutineScope(Dispatchers.IO).launch {
+
+                *//*withTimeout(7000L) {
                     executar()
-                }*/
+                }*//*
 
                 val tempo = measureTimeMillis {
 
-                    /*var resultado1: String? = null
-                    var resultado2: String? = null*/
+                    *//*var resultado1: String? = null
+                    var resultado2: String? = null*//*
 
                     //val job1 = launch {
                     val resultado1 = async {
@@ -65,9 +85,9 @@ class MainActivity : AppCompatActivity() {
                         tarefa2()
                     }
 
-                    /*job1.join()
+                    *//*job1.join()
                     job2.join() // Só avança quando os dois terminarem
-                    */
+                    *//*
 
                     Log.i("info_coroutine", "Resultado1: ${resultado1.await()}")
                     Log.i("info_coroutine", "Resultado2: ${resultado2.await()}")
@@ -85,7 +105,7 @@ class MainActivity : AppCompatActivity() {
                 //recuperarUsuarioLogado()
 
                 //binding.btnIniciar.text = "Executou"
-                /*repeat(15) { indice ->
+                *//*repeat(15) { indice ->
                     Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
 
                     withContext(Dispatchers.Main) {
@@ -93,8 +113,8 @@ class MainActivity : AppCompatActivity() {
                     }
                     //Thread.sleep(1000)
                     delay(1000)
-                }*/
-            }
+                }*//*
+            }*/
 
             //Thread(MinhaRunnable()).start()
 
