@@ -8,6 +8,7 @@ import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.Activity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -51,23 +52,34 @@ class MainActivity : AppCompatActivity() {
 
                 val tempo = measureTimeMillis {
 
-                    var resultado1: String? = null
-                    var resultado2: String? = null
+                    /*var resultado1: String? = null
+                    var resultado2: String? = null*/
 
-                    val job1 = launch {
-                        resultado1 = tarefa1()
+                    //val job1 = launch {
+                    val resultado1 = async {
+                        tarefa1()
                     }
 
-                    val job2 = launch {
-                        resultado2 = tarefa2()
+                    //val job2 = launch {
+                    val resultado2 = async {
+                        tarefa2()
                     }
 
-                    job1.join()
+                    /*job1.join()
                     job2.join() // Só avança quando os dois terminarem
+                    */
 
-                    Log.i("info_coroutine", "Resultado1: $resultado1")
-                    Log.i("info_coroutine", "Resultado2: $resultado2")
+                    Log.i("info_coroutine", "Resultado1: ${resultado1.await()}")
+                    Log.i("info_coroutine", "Resultado2: ${resultado2.await()}")
+
+                    //Mostrar na interface
+                    withContext(Dispatchers.Main) {
+                        binding.btnIniciar.text = "${resultado1.await()}"
+                        binding.btnParar.text = "${resultado2.await()}"
+                    }
+
                 }
+
                 Log.i("info_coroutine", "Tempo: $tempo")
 
                 //recuperarUsuarioLogado()
