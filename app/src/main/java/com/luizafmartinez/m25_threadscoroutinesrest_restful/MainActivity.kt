@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -54,10 +55,11 @@ class MainActivity : AppCompatActivity() {
             //CoroutineScope(Dispatchers.Main).launch {
             //MainScope().launch {
             //CoroutineScope(Dispatchers.IO).launch {
-            GlobalScope.launch {
+            //GlobalScope.launch {
+            lifecycleScope.launch {
                 repeat(15) { indice ->
                     //binding.btnIniciar.text = "Executando: $indice"
-                    Log.i("info_coroutine", "Executando: $it T: ${Thread.currentThread().name}")
+                    Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
                     delay(1000L)
                 }
             }

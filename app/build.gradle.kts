@@ -42,6 +42,9 @@ android {
 
 dependencies {
 
+    // Dependências Lifecycle
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
