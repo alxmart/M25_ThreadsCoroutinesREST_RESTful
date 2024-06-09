@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,10 @@ class MainActivity : AppCompatActivity() {
         ActivityMainBinding.inflate(layoutInflater)
     }
 
+    private val retrofit by lazy {
+        RetrofitHelper.retrofit
+    }
+
     private var pararThread = false
 
     private var job: Job? = null
@@ -36,6 +41,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
 
         binding.btnAbrir.setOnClickListener {
             startActivity(
@@ -53,19 +59,21 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
+
+
             //CoroutineScope(Dispatchers.Main).launch {
             //MainScope().launch {
             //CoroutineScope(Dispatchers.IO).launch {
             //GlobalScope.launch {
             //lifecycleScope.launch {
-            runBlocking {
+            /*runBlocking {
                 binding.btnIniciar.text = "Executando"
-                /*repeat(15) { indice ->
+                *//*repeat(15) { indice ->
                     //binding.btnIniciar.text = "Executando: $indice"
                     Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
                     delay(1000L)
-                }*/
-            }
+                }*//*
+            }*/
 
             //CoroutineScope( Dispatchers.Main ).launch {
 
@@ -156,6 +164,8 @@ class MainActivity : AppCompatActivity() {
                 Log.i("info_thread", "Executando: $indice")
                 Thread.sleep(1000)
             }*/
+
+
         }
 
     }
