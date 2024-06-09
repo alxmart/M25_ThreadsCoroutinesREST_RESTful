@@ -42,8 +42,12 @@ android {
 
 dependencies {
 
-    // Dependências Lifecycle
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.8.1")
+    // Dependência Lifecycle
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+
+    // Dependências Retrofit
+    implementation(libs.retrofit)
+    implementation (libs.converter.gson)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
