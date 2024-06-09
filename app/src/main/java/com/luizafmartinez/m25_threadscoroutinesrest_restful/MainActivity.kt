@@ -14,6 +14,7 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import kotlin.system.measureTimeMillis
 
@@ -56,12 +57,14 @@ class MainActivity : AppCompatActivity() {
             //MainScope().launch {
             //CoroutineScope(Dispatchers.IO).launch {
             //GlobalScope.launch {
-            lifecycleScope.launch {
-                repeat(15) { indice ->
+            //lifecycleScope.launch {
+            runBlocking {
+                binding.btnIniciar.text = "Executando"
+                /*repeat(15) { indice ->
                     //binding.btnIniciar.text = "Executando: $indice"
                     Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
                     delay(1000L)
-                }
+                }*/
             }
 
             //CoroutineScope( Dispatchers.Main ).launch {
