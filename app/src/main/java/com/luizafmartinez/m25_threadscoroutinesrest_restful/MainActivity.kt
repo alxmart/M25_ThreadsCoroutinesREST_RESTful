@@ -4,20 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.EnderecoAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.async
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
-import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,7 +54,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnIniciar.setOnClickListener {
 
-
+            CoroutineScope(Dispatchers.IO).launch {
+                recuperarEndereco()
+            }
 
             //CoroutineScope(Dispatchers.Main).launch {
             //MainScope().launch {
@@ -164,10 +161,13 @@ class MainActivity : AppCompatActivity() {
                 Log.i("info_thread", "Executando: $indice")
                 Thread.sleep(1000)
             }*/
-
-
         }
+    }
 
+    private suspend fun recuperarEndereco() {
+
+        val enderecoAPI = retrofit.create( EnderecoAPI::class.java )
+        enderecoAPI.recuperarEndereco()
     }
 
     /*override fun onStop() {
