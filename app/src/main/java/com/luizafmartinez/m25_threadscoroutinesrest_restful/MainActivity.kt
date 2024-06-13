@@ -167,7 +167,8 @@ class MainActivity : AppCompatActivity() {
     private suspend fun recuperarEndereco() {
 
         val enderecoAPI = retrofit.create( EnderecoAPI::class.java )
-        enderecoAPI.recuperarEndereco()
+        val retorno = enderecoAPI.recuperarEndereco()
+
     }
 
     /*override fun onStop() {
