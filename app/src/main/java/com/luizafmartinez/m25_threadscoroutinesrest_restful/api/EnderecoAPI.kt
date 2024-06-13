@@ -8,5 +8,4 @@ interface EnderecoAPI {
     // Base URL: https://viacep.com.br/  +  ws/01001000/json/
     @GET("ws/01001000/json/")
     suspend fun recuperarEndereco()
-
 }
