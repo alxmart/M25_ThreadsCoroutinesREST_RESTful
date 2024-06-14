@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-
         binding.btnAbrir.setOnClickListener {
             startActivity(
                 Intent(this, SegundaActivity::class.java)
