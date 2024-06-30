@@ -58,13 +58,15 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 recuperarEndereco()
             }
-
+            //-------------------------------------------------
+            // Tipos de escopo de Coroutines:
+            //------------------------------------------------
             //CoroutineScope(Dispatchers.Main).launch {
             //MainScope().launch {
             //CoroutineScope(Dispatchers.IO).launch {
             //GlobalScope.launch {
             //lifecycleScope.launch {
-            /*runBlocking {
+            /*runBlocking {    //Bloqueia a thread principal/Não usar p/ execução longa
                 binding.btnIniciar.text = "Executando"
                 *//*repeat(15) { indice ->
                     //binding.btnIniciar.text = "Executando: $indice"
@@ -180,7 +182,7 @@ class MainActivity : AppCompatActivity() {
         if ( retorno != null ) {
 
             if ( retorno.isSuccessful ) {
-                val endereco = retorno.body()
+                val endereco = retorno.body() // Pega o corpo da Response
                 val rua = endereco?.logradouro
                 val cidade = endereco?.localidade
                 Log.i("info_endereco", "Endereço: $rua, $cidade")

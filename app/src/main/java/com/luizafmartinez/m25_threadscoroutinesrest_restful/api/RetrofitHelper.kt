@@ -11,4 +11,5 @@ class RetrofitHelper {
             .addConverterFactory( GsonConverterFactory.create() ) // Para JSON ou XML
             .build()
     }
+
 }
