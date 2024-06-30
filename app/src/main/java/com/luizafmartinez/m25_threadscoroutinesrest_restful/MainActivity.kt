@@ -172,8 +172,10 @@ class MainActivity : AppCompatActivity() {
         var retorno: Response<Endereco>? = null
 
         try {
+            // Passa a Interface e cria objeto (enderecoAPI)
             val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
-            retorno = enderecoAPI.recuperarEndereco()
+            retorno = enderecoAPI.recuperarEndereco() //Método dentro da Interface EnderecoAPI
+
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("info_endereco", "Erro ao recuperar")
