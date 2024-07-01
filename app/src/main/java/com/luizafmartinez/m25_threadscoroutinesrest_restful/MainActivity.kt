@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.EnderecoAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
