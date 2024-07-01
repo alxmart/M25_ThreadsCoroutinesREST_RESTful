@@ -170,10 +170,11 @@ class MainActivity : AppCompatActivity() {
     private suspend fun recuperarEndereco() {
 
         var retorno: Response<Endereco>? = null
+        val cepDigitadoUsuario = "01001000"   //binding.editNome.text
 
         try {// Passa a Interface e cria objeto (enderecoAPI)
             val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
-            retorno = enderecoAPI.recuperarEndereco() //Método dentro da Interface EnderecoAPI
+            retorno = enderecoAPI.recuperarEndereco( cepDigitadoUsuario ) //Método dentro da Interface EnderecoAPI
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("info_endereco", "Erro ao recuperar.")
@@ -184,9 +185,8 @@ class MainActivity : AppCompatActivity() {
                 val endereco = retorno.body() // Pega o corpo da Response
                 val rua = endereco?.logradouro
                 val cidade = endereco?.localidade
-                val cep = endereco?.teste
-                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")
-            }
+                val cep = endereco?.cep
+                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")            }
         }
     }
         /*override fun onStop() {

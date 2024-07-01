@@ -3,6 +3,7 @@ package com.luizafmartinez.m25_threadscoroutinesrest_restful.api
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
 import retrofit2.Response
 import retrofit2.http.GET
+import retrofit2.http.Path
 
 interface EnderecoAPI {
     // Base URL: https://viacep.com.br/  +  ws/01001000/json/ (rota)
@@ -17,6 +18,10 @@ interface EnderecoAPI {
     // GET , POST , PUT, PATCH, DELETE
     // https://api.banco.inter.com.br/ + saldo ( Ex.: POST => Novo Saldo)
     //@GET("ws/01001000/json/")
-    @GET("ws/05028000/json/")
-    suspend fun recuperarEndereco() : Response<Endereco>
+
+    //@GET("ws/05028000/json/")
+    @GET("ws/{cep}/json/")
+    suspend fun recuperarEndereco(
+        @Path("cep") cep: String
+    ) : Response<Endereco>
 }
