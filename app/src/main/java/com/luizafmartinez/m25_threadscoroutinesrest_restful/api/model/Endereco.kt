@@ -4,8 +4,11 @@ import com.google.gson.annotations.SerializedName
 
 data class Endereco(
 
+    /*
     @SerializedName("cep")
     val teste: String,
+    */
+    val cep: String,
     val logradouro: String,
     val complemento: String,
     val bairro: String,
