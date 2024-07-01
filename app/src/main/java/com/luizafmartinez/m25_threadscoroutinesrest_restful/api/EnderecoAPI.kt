@@ -12,18 +12,11 @@ interface EnderecoAPI {
                                         salvarpostagem
                                         saldo
                                         transferencias
+                                        extrato
     */
     // GET , POST , PUT, PATCH, DELETE
     // https://api.banco.inter.com.br/ + saldo ( Ex.: POST => Novo Saldo)
     //@GET("ws/01001000/json/")
-
     @GET("ws/05028000/json/")
-
     suspend fun recuperarEndereco() : Response<Endereco>
-
 }
-
-
-
-
-
