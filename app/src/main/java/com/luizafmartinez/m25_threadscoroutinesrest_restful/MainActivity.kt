@@ -30,10 +30,10 @@ class MainActivity : AppCompatActivity() {
 
     private var job: Job? = null
 
-    override fun onDestroy() {
+    /*override fun onDestroy() {
         super.onDestroy()
         job?.cancel()
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -170,7 +170,7 @@ class MainActivity : AppCompatActivity() {
     private suspend fun recuperarEndereco() {
 
         var retorno: Response<Endereco>? = null
-        val cepDigitadoUsuario = "01001000"   //binding.editNome.text
+        val cepDigitadoUsuario = "05028000"   //binding.editNome.text
 
         try {// Passa a Interface e cria objeto (enderecoAPI)
             val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
@@ -186,7 +186,8 @@ class MainActivity : AppCompatActivity() {
                 val rua = endereco?.logradouro
                 val cidade = endereco?.localidade
                 val cep = endereco?.cep
-                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")            }
+                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")
+            }
         }
     }
         /*override fun onStop() {

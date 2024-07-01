@@ -19,8 +19,9 @@ interface EnderecoAPI {
     // https://api.banco.inter.com.br/ + saldo ( Ex.: POST => Novo Saldo)
     //@GET("ws/01001000/json/")
 
-    @GET("ws/05028000/json/")
+    //@GET("ws/05028000/json/")
     //@GET("ws/{cep}/{formato}/")
+    @GET("ws/{cep}/json/")
     suspend fun recuperarEndereco(
         @Path("cep") cep: String
         //@Path("formato") formato: String
