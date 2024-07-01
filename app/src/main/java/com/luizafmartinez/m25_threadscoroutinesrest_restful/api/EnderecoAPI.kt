@@ -1,6 +1,5 @@
 package com.luizafmartinez.m25_threadscoroutinesrest_restful.api
 
-import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
 import retrofit2.Response
 import retrofit2.http.GET
 
