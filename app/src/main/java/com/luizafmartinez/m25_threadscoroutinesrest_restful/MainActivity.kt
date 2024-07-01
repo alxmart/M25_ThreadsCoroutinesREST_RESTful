@@ -184,7 +184,8 @@ class MainActivity : AppCompatActivity() {
                 val endereco = retorno.body() // Pega o corpo da Response
                 val rua = endereco?.logradouro
                 val cidade = endereco?.localidade
-                Log.i("info_endereco", "Endereço: $rua, $cidade")
+                val cep = endereco?.teste
+                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")
             }
         }
     }

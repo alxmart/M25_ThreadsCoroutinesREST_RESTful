@@ -1,14 +1,14 @@
 package com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Endereco(
-    val cep: String,
+
+    @SerializedName("cep")
+    val teste: String,
     val logradouro: String,
     val complemento: String,
     val bairro: String,
     val localidade: String,
-    val uf: String,
-    val ibge: Int,
-    val gia: Int,
-    val ddd: Int,
-    val siafi: Int
+    val uf: String
 )
