@@ -185,7 +185,7 @@ class MainActivity : AppCompatActivity() {
 
         try {// Passa a Interface e cria objeto (enderecoAPI)
             val postagemAPI = retrofit.create(PostagemAPI::class.java)
-            retorno = postagemAPI.recuperarPostagemUnica(1) //Método dentro da Interface PostagemAPI
+            retorno = postagemAPI.recuperarPostagemUnica(2) //Método dentro da Interface PostagemAPI
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("info_jsonplace", "Erro ao recuperar.")
