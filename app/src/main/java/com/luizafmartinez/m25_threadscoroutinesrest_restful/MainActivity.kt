@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 //recuperarEndereco()
-                recuperarPostagens()
+                //recuperarPostagens()
+                recuperarPostagemUnica()
             }
             /*
             //-------------------------------------------------
@@ -175,6 +176,31 @@ class MainActivity : AppCompatActivity() {
             */
         }
 
+    }
+
+
+    private suspend fun recuperarPostagemUnica() {
+
+        var retorno: Response<Postagem>? = null
+
+        try {// Passa a Interface e cria objeto (enderecoAPI)
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.recuperarPostagemUnica(1) //Método dentro da Interface PostagemAPI
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonplace", "Erro ao recuperar.")
+        }
+
+        if (retorno != null) {
+
+            if (retorno.isSuccessful) {
+                val postagem = retorno.body() // Pega o corpo da Response
+                Log.i("info_jsonplace", "${postagem?.id} - ${postagem?.title}")
+
+            } else {
+                Log.i("info_jsonplace", "")
+            }
+        }
     }
 
     private suspend fun recuperarPostagens() {
