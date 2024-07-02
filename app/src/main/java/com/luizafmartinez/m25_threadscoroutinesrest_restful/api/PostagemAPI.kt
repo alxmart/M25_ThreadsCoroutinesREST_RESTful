@@ -1,5 +1,6 @@
 package com.luizafmartinez.m25_threadscoroutinesrest_restful.api
 
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import retrofit2.Response
 import retrofit2.http.GET
@@ -14,5 +15,10 @@ interface PostagemAPI {
     suspend fun recuperarPostagemUnica(
         @Path("id")  id: Int
     ) : Response<Postagem>
+
+    @GET("posts/{id}/comments")
+    suspend fun recuperarComentariosParaPostagem(
+        @Path("id")  id: Int
+    ) : Response<List<Comentario>>
 
 }
