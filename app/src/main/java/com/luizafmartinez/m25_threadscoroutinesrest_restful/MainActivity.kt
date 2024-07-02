@@ -5,8 +5,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.EnderecoAPI
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.PostagemAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -177,29 +179,29 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun recuperarPostagens() {
 
-        var retorno: Response<Endereco>? = null
-        val cepDigitadoUsuario = "05028000"   //binding.editNome.text
+        var retorno: Response<List<Postagem>>? = null
 
         try {// Passa a Interface e cria objeto (enderecoAPI)
-            val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
-            retorno =
-                enderecoAPI.recuperarEndereco(cepDigitadoUsuario) //Método dentro da Interface EnderecoAPI
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.recuperarPostagens() //Método dentro da Interface PostagemAPI
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.i("info_endereco", "Erro ao recuperar.")
+            Log.i("info_jsonplace", "Erro ao recuperar.")
         }
 
         if (retorno != null) {
+
             if (retorno.isSuccessful) {
-                val endereco = retorno.body() // Pega o corpo da Response
-                val rua = endereco?.logradouro
-                val cidade = endereco?.localidade
-                val cep = endereco?.cep
-                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")
+                val listapostagens = retorno.body() // Pega o corpo da Response
+                listapostagens?.forEach { postagem ->
+                    val id = postagem.id
+                    val titulo = postagem.title
+                    Log.i("info_jsonplace", "Postagem: $id - $titulo")
+                }
+            } else {
+                Log.i("info_jsonplace", "")
             }
         }
-
-
     }
 
     private suspend fun recuperarEndereco() {
