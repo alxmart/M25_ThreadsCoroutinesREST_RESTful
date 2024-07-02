@@ -26,6 +26,10 @@ class MainActivity : AppCompatActivity() {
         RetrofitHelper.retrofit
     }
 
+    /*private val apiViaCEP by lazy {
+        RetrofitHelper.apiViaCEP
+    }*/
+
     private var pararThread = false
 
     private var job: Job? = null
@@ -57,9 +61,9 @@ class MainActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 //recuperarEndereco()
-
-
+                recuperarPostagens()
             }
+            /*
             //-------------------------------------------------
             // Tipos de escopo de Coroutines:
             //------------------------------------------------
@@ -166,7 +170,36 @@ class MainActivity : AppCompatActivity() {
                 Log.i("info_thread", "Executando: $indice")
                 Thread.sleep(1000)
             }*/
+            */
         }
+
+    }
+
+    private suspend fun recuperarPostagens() {
+
+        var retorno: Response<Endereco>? = null
+        val cepDigitadoUsuario = "05028000"   //binding.editNome.text
+
+        try {// Passa a Interface e cria objeto (enderecoAPI)
+            val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
+            retorno =
+                enderecoAPI.recuperarEndereco(cepDigitadoUsuario) //Método dentro da Interface EnderecoAPI
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_endereco", "Erro ao recuperar.")
+        }
+
+        if (retorno != null) {
+            if (retorno.isSuccessful) {
+                val endereco = retorno.body() // Pega o corpo da Response
+                val rua = endereco?.logradouro
+                val cidade = endereco?.localidade
+                val cep = endereco?.cep
+                Log.i("info_endereco", "Endereço: $rua, $cidade, t: $cep")
+            }
+        }
+
+
     }
 
     private suspend fun recuperarEndereco() {
@@ -176,14 +209,15 @@ class MainActivity : AppCompatActivity() {
 
         try {// Passa a Interface e cria objeto (enderecoAPI)
             val enderecoAPI = retrofit.create(EnderecoAPI::class.java)
-            retorno = enderecoAPI.recuperarEndereco( cepDigitadoUsuario ) //Método dentro da Interface EnderecoAPI
+            retorno =
+                enderecoAPI.recuperarEndereco(cepDigitadoUsuario) //Método dentro da Interface EnderecoAPI
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("info_endereco", "Erro ao recuperar.")
         }
 
-        if ( retorno != null ) {
-            if ( retorno.isSuccessful ) {
+        if (retorno != null) {
+            if (retorno.isSuccessful) {
                 val endereco = retorno.body() // Pega o corpo da Response
                 val rua = endereco?.logradouro
                 val cidade = endereco?.localidade
@@ -192,104 +226,105 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-        /*override fun onStop() {
-            super.onStop()
-            job?.cancel()
-        }*/
 
-        private suspend fun tarefa1(): String {
-            repeat(3) { indice ->
-                Log.i("info_coroutine", "Tarefa1: $indice T: ${Thread.currentThread().name}")
-                delay(1000L)  // 1000 ms => 1 segundo | UI Thread
-            }
-            return "Executou Tarefa 1"
+    /*override fun onStop() {
+        super.onStop()
+        job?.cancel()
+    }*/
+
+    private suspend fun tarefa1(): String {
+        repeat(3) { indice ->
+            Log.i("info_coroutine", "Tarefa1: $indice T: ${Thread.currentThread().name}")
+            delay(1000L)  // 1000 ms => 1 segundo | UI Thread
         }
+        return "Executou Tarefa 1"
+    }
 
-        private suspend fun tarefa2(): String {
-            repeat(3) { indice ->
-                Log.i("info_coroutine", "Tarefa2: $indice T: ${Thread.currentThread().name}")
-                delay(1000L)  // 1000 ms => 1 segundo | UI Thread
-            }
-            return "Executou Tarefa 2"
+    private suspend fun tarefa2(): String {
+        repeat(3) { indice ->
+            Log.i("info_coroutine", "Tarefa2: $indice T: ${Thread.currentThread().name}")
+            delay(1000L)  // 1000 ms => 1 segundo | UI Thread
         }
+        return "Executou Tarefa 2"
+    }
 
-        private suspend fun executar() {
-            repeat(15) { indice ->
-                Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
+    private suspend fun executar() {
+        repeat(15) { indice ->
+            Log.i("info_coroutine", "Executando: $indice T: ${Thread.currentThread().name}")
 
-                withContext(Dispatchers.Main) {
+            withContext(Dispatchers.Main) {
+                binding.btnIniciar.text =
+                    "Executando: $indice T: ${Thread.currentThread().name}"
+                binding.btnIniciar.isEnabled = false
+            }
+            delay(1000L)
+        }
+    }
+
+    private suspend fun dadosUsuario() {
+        //private suspend fun executar () {
+
+        val usuario = recuperarUsuarioLogado()
+        Log.i("info_coroutine", "Usuario: ${usuario.nome} T: ${Thread.currentThread().name}")
+
+        val postagens = recuperarPostagemPeloId(usuario.id)
+        Log.i(
+            "info_coroutine",
+            "Postagens: ${postagens.size} postagens T: ${Thread.currentThread().name}"
+        )
+    }
+
+    private suspend fun recuperarPostagemPeloId(idUsuario: Int): List<String> {
+        delay(2000) // 2 segundos
+        return listOf(
+            "Viagem para o Nordeste",
+            "Estudando Android",
+            "jantando restaurante"
+        )
+    }
+
+    private suspend fun recuperarUsuarioLogado(): Usuario {
+        delay(2000) // 2 segundos
+        return Usuario(1020, "Jamilton Damasceno")
+    }
+
+    inner class MinhaRunnable : Runnable {
+        override fun run() {
+            repeat(30) { indice ->
+                if (pararThread) {
+                    pararThread = false
+                    return
+                }
+                Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
+                runOnUiThread { // Usar só para atualizações de Interface
                     binding.btnIniciar.text =
                         "Executando: $indice T: ${Thread.currentThread().name}"
                     binding.btnIniciar.isEnabled = false
-                }
-                delay(1000L)
-            }
-        }
-
-        private suspend fun dadosUsuario() {
-            //private suspend fun executar () {
-
-            val usuario = recuperarUsuarioLogado()
-            Log.i("info_coroutine", "Usuario: ${usuario.nome} T: ${Thread.currentThread().name}")
-
-            val postagens = recuperarPostagemPeloId(usuario.id)
-            Log.i(
-                "info_coroutine",
-                "Postagens: ${postagens.size} postagens T: ${Thread.currentThread().name}"
-            )
-        }
-
-        private suspend fun recuperarPostagemPeloId(idUsuario: Int): List<String> {
-            delay(2000) // 2 segundos
-            return listOf(
-                "Viagem para o Nordeste",
-                "Estudando Android",
-                "jantando restaurante"
-            )
-        }
-
-        private suspend fun recuperarUsuarioLogado(): Usuario {
-            delay(2000) // 2 segundos
-            return Usuario(1020, "Jamilton Damasceno")
-        }
-
-        inner class MinhaRunnable : Runnable {
-            override fun run() {
-                repeat(30) { indice ->
-                    if (pararThread) {
-                        pararThread = false
-                        return
+                    if (indice == 29) {
+                        binding.btnIniciar.text = "Reiniciar Execução"
+                        binding.btnIniciar.isEnabled = true
                     }
-                    Log.i("info_thread", "Minha Thread: $indice T: ${Thread.currentThread().name}")
-                    runOnUiThread { // Usar só para atualizações de Interface
-                        binding.btnIniciar.text =
-                            "Executando: $indice T: ${Thread.currentThread().name}"
-                        binding.btnIniciar.isEnabled = false
-                        if (indice == 29) {
-                            binding.btnIniciar.text = "Reiniciar Execução"
-                            binding.btnIniciar.isEnabled = true
-                        }
-                    }
-                    Thread.sleep(1000)
                 }
-            }
-        }
-
-        inner class MinhaThread : Thread() {
-            override fun run() {
-                super.run()
-                repeat(30) { indice ->
-                    Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
-                    runOnUiThread { // Usar só para atualizações de Interface
-                        binding.btnIniciar.text = "Executando: $indice T: ${currentThread().name}"
-                        binding.btnIniciar.isEnabled = false
-                        if (indice == 29) {
-                            binding.btnIniciar.text = "Reiniciar Execução"
-                            binding.btnIniciar.isEnabled = true
-                        }
-                    }
-                    sleep(1000)
-                }
+                Thread.sleep(1000)
             }
         }
     }
+
+    inner class MinhaThread : Thread() {
+        override fun run() {
+            super.run()
+            repeat(30) { indice ->
+                Log.i("info_thread", "Minha Thread: $indice T: ${currentThread().name}")
+                runOnUiThread { // Usar só para atualizações de Interface
+                    binding.btnIniciar.text = "Executando: $indice T: ${currentThread().name}"
+                    binding.btnIniciar.isEnabled = false
+                    if (indice == 29) {
+                        binding.btnIniciar.text = "Reiniciar Execução"
+                        binding.btnIniciar.isEnabled = true
+                    }
+                }
+                sleep(1000)
+            }
+        }
+    }
+}
