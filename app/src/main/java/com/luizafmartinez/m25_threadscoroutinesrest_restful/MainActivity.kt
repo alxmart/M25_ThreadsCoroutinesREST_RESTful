@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.EnderecoAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.PostagemAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
@@ -64,7 +65,8 @@ class MainActivity : AppCompatActivity() {
             CoroutineScope(Dispatchers.IO).launch {
                 //recuperarEndereco()
                 //recuperarPostagens()
-                recuperarPostagemUnica()
+                //recuperarPostagemUnica()
+                recuperarComentariosParaPostagem()
             }
             /*
             //-------------------------------------------------
@@ -178,6 +180,38 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private suspend fun recuperarComentariosParaPostagem() {
+
+        var retorno: Response<List<Comentario>>? = null
+
+        try {// Passa a Interface e cria objeto (enderecoAPI)
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.recuperarComentariosParaPostagem(1) //Método dentro da Interface PostagemAPI
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonplace", "Erro ao recuperar.")
+        }
+
+        if (retorno != null) {
+
+            if (retorno.isSuccessful) {
+                val listaComentarios = retorno.body() // Pega o corpo da Response
+
+                var resultado = ""
+                listaComentarios?.forEach { comentario ->
+                    val idComentario = comentario.id
+                    val email = comentario.email
+                    val comentarioResultado = "$idComentario - $email \n"
+                    resultado += comentarioResultado
+                }
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+            }
+        }
+    }
 
     private suspend fun recuperarPostagemUnica() {
 
