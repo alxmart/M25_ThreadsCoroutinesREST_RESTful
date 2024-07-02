@@ -186,16 +186,24 @@ class MainActivity : AppCompatActivity() {
 
         var retorno: Response<Postagem>? = null
 
+        /*
         val postagem = Postagem(
             "Corpo da postagem",
             -1,
             "Título da postagem",
             1090
         )
+        */
 
         try {
             val postagemAPI = retrofit.create(PostagemAPI::class.java)
-            retorno = postagemAPI.salvarPostagem(postagem)
+            //retorno = postagemAPI.salvarPostagem(postagem)
+            retorno = postagemAPI.salvarPostagemFormulario(
+                1090,
+                -1,
+                "Título da postagem Formulário",
+                "Corpo da postagem"
+            )
 
         } catch (e: Exception) {
             e.printStackTrace()
