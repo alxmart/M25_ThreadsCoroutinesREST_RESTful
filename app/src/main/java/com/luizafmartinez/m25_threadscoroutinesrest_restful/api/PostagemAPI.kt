@@ -7,7 +7,6 @@ import retrofit2.http.GET
 interface PostagemAPI {
     //https://jsonplaceholder.typicode.com/ + posts
     @GET("posts")
-    suspend fun recuperarPostagens(
-    ) : Response<List<Postagem>>
+    suspend fun recuperarPostagens() : Response<List<Postagem>>
 
 }
