@@ -56,7 +56,9 @@ class MainActivity : AppCompatActivity() {
         binding.btnIniciar.setOnClickListener {
 
             CoroutineScope(Dispatchers.IO).launch {
-                recuperarEndereco()
+                //recuperarEndereco()
+
+
             }
             //-------------------------------------------------
             // Tipos de escopo de Coroutines:
