@@ -195,7 +195,13 @@ class MainActivity : AppCompatActivity() {
 
             if (retorno.isSuccessful) {
                 val postagem = retorno.body() // Pega o corpo da Response
-                Log.i("info_jsonplace", "${postagem?.id} - ${postagem?.title}")
+                val resultado = "${postagem?.id} - ${postagem?.title}"
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+                Log.i("info_jsonplace", resultado)
 
             } else {
                 Log.i("info_jsonplace", "")
