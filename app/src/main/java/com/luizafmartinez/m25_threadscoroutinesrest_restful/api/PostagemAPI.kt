@@ -3,7 +3,9 @@ package com.luizafmartinez.m25_threadscoroutinesrest_restful.api
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import retrofit2.Response
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -27,6 +29,7 @@ interface PostagemAPI {
         @Query("postId")  id: Int
     ) : Response<List<Comentario>>
 
+    /*
     @GET("pesquisa/{marca}/{modelo}") //Path
     suspend fun pesquisaPath(
         @Path("marca")  marca: String, //Com PATH, eu PRECISO ter marca
@@ -38,9 +41,12 @@ interface PostagemAPI {
         @Query("marca")  marca: String, //Com QUERY, eu posso passar a marca ou não
         @Query("modelo") modelos: String
     ) : Response<List<Comentario>>
+    */
 
-
-
+    @POST("posts")
+    suspend fun salvarPostagem(
+        @Body postagem: Postagem
+    ): Response<Postagem>
 
 
 }
