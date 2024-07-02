@@ -210,12 +210,15 @@ class MainActivity : AppCompatActivity() {
                 val id = postagem?.id
                 val titulo = postagem?.title
                 val idUsuario = postagem?.userId
-                var resultado = "id:$id - T:$titulo - U:$idUsuario"
+                var resultado = "[${retorno.code()}]id:$id - T:$titulo - U:$idUsuario"
 
                 withContext(Dispatchers.Main) {
                     binding.textResultado.text = resultado
                 }
-
+            } else {
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = "ERRO CODE: ${retorno.code()}"
+                }
             }
         }
     }
