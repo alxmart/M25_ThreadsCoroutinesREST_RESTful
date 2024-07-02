@@ -27,4 +27,20 @@ interface PostagemAPI {
         @Query("postId")  id: Int
     ) : Response<List<Comentario>>
 
+    @GET("pesquisa/{marca}/{modelo}") //Path
+    suspend fun pesquisaPath(
+        @Path("marca")  marca: String, //Com PATH, eu PRECISO ter marca
+        @Path("modelo") modelos: String //Com PATH, eu PRECISO ter modelo
+    ) : Response<List<Comentario>>
+
+    @GET("pesquisa") //Query  url:  pesquisa?marca=&modelo=civic
+    suspend fun pesquisaQuery(
+        @Query("marca")  marca: String, //Com QUERY, eu posso passar a marca ou não
+        @Query("modelo") modelos: String
+    ) : Response<List<Comentario>>
+
+
+
+
+
 }
