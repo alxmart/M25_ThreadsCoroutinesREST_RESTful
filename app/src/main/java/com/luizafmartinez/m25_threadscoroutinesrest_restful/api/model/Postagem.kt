@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Postagem(
     @SerializedName("body")
-    val descricao: String,
+    val description: String,
     //val body: String,
     val id: Int,
     val title: String,
