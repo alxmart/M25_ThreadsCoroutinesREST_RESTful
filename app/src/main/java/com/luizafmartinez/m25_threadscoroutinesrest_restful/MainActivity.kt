@@ -189,7 +189,18 @@ class MainActivity : AppCompatActivity() {
 
         try {
             val postagemAPI = retrofit.create(PostagemAPI::class.java)
+            retorno = postagemAPI.atualizarPostagemPatch(
+                1,
+                Postagem(
+                    "Corpo da postagem",
+                    -1,
+                    //"Título",
+                    null, //PATCH - null, não altera o título !!
+                    1090
+                )
+            )
 
+            /*
             retorno = postagemAPI.atualizarPostagemPut(
                 1,
                 Postagem(
@@ -200,6 +211,7 @@ class MainActivity : AppCompatActivity() {
                     1090
                 )
             )
+            */
         } catch (e: Exception) {
             e.printStackTrace()
             Log.i("info_jsonplace", "Erro ao recuperar.")
