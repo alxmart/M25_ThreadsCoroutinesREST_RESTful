@@ -12,6 +12,7 @@ import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Foto
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
+import com.squareup.picasso.Picasso
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -210,6 +211,9 @@ class MainActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     binding.textResultado.text = resultado
+                    Picasso.get()
+                           .load(foto?.url)
+                           .into(binding.imageFoto)
                 }
 
                 Log.i("info_jsonplace", resultado)
