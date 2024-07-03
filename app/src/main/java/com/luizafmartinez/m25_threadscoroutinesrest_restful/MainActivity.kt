@@ -185,48 +185,19 @@ class MainActivity : AppCompatActivity() {
 
     private suspend fun removerPostagem() {
 
-        var retorno: Response<Postagem>? = null
+        var retorno: Response<Unit>? = null
 
         try {
             val postagemAPI = retrofit.create(PostagemAPI::class.java)
-            retorno = postagemAPI.atualizarPostagemPatch(
-                1,
-                Postagem(
-                    "Corpo da postagem",
-                    -1,
-                    //"Título",
-                    null, //PATCH - null, não altera o título !!
-                    1090
-                )
-            )
-
-            /*
-            retorno = postagemAPI.atualizarPostagemPut(
-                1,
-                Postagem(
-                    "Corpo da postagem",
-                    -1,
-                    //"Título",
-                    null, //Atualiza todos os valores, mesmo se nulo
-                    1090
-                )
-            )
-            */
+            retorno = postagemAPI.removerPostagem(1)
         } catch (e: Exception) {
             e.printStackTrace()
-            Log.i("info_jsonplace", "Erro ao recuperar.")
+            Log.i("info_jsonplace", "Erro ao deletar.")
         }
 
         if (retorno != null) {
             if (retorno.isSuccessful) {
-                val postagem = retorno.body()
-
-                val id = postagem?.id
-                val titulo = postagem?.title
-                val idUsuario = postagem?.userId
-                val corpo = postagem?.body
-
-                var resultado = "[${retorno.code()}] ID:$id - T:$titulo C:$corpo - U:$idUsuario"
+                var resultado = "[${retorno.code()}] Sucesso ao remover postagem"
 
                 withContext(Dispatchers.Main) {
                     binding.textResultado.text = resultado
