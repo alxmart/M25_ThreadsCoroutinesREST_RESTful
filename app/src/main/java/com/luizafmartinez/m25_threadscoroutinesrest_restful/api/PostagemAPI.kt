@@ -4,6 +4,7 @@ import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -19,15 +20,18 @@ interface PostagemAPI {
     @GET("posts")
     suspend fun recuperarPostagens() : Response<List<Postagem>>
 
+
     @GET("posts/{id}")
     suspend fun recuperarPostagemUnica(
         @Path("id")  id: Int
     ) : Response<Postagem>
 
+
     @GET("posts/{id}/comments")
     suspend fun recuperarComentariosParaPostagem(
         @Path("id")  id: Int
     ) : Response<List<Comentario>>
+
 
     @GET("comments")   //comments?postId=1&idcomentario=2&
     suspend fun recuperarComentariosParaPostagemQuery(
@@ -53,6 +57,7 @@ interface PostagemAPI {
         @Body postagem: Postagem
     ): Response<Postagem>
 
+
     @FormUrlEncoded
     @POST("posts")
     suspend fun salvarPostagemFormulario(
@@ -61,6 +66,7 @@ interface PostagemAPI {
         @Field("title") title: String,
         @Field("body") body: String
     ): Response<Postagem>
+
 
     @PUT("posts/{id}")   // Atualização completa
     suspend fun atualizarPostagemPut(
@@ -74,5 +80,9 @@ interface PostagemAPI {
         @Body postagem: Postagem
     ): Response<Postagem>
 
+    @DELETE("posts/{id}")   // Remover postagem
+    suspend fun removerPostagem(
+        @Path("id") id: Int
+    ): Response<Postagem>
 
 }
