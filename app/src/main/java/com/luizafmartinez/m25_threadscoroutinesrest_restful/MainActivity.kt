@@ -9,6 +9,7 @@ import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.PostagemAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Foto
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
 import kotlinx.coroutines.CoroutineScope
@@ -69,7 +70,8 @@ class MainActivity : AppCompatActivity() {
                 //recuperarComentariosParaPostagem()
                 //salvarPostagem()
                 //atualizarPostagem()
-                removerPostagem()
+                //removerPostagem()
+                recuperarFotoUnica()
             }
 
             /*
@@ -180,6 +182,43 @@ class MainActivity : AppCompatActivity() {
                 Thread.sleep(1000)
             }*/
             */
+        }
+    }
+
+    private suspend fun recuperarFotoUnica() {
+
+        var retorno: Response<Foto>? = null
+
+        try {
+
+            val postagemAPI = retrofit.create(PostagemAPI::class.java)
+
+            retorno = postagemAPI.recuperarFoto(5)
+
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonplace", "Erro ao recuperar foto.")
+        }
+
+        if (retorno != null) {
+
+            if (retorno.isSuccessful) {
+
+                val foto = retorno.body() // Pega o corpo da Response
+
+                val resultado = "[${retorno.code()}] - ${foto?.id} - ${foto?.url}"
+
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = resultado
+                }
+
+                Log.i("info_jsonplace", resultado)
+
+            } else {
+                withContext(Dispatchers.Main) {
+                    binding.textResultado.text = "ERRO CODE: ${retorno.code()}"
+                }
+            }
         }
     }
 
