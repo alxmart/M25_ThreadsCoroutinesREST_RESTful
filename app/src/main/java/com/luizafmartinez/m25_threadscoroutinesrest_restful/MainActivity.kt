@@ -195,7 +195,8 @@ class MainActivity : AppCompatActivity() {
                 Postagem(
                     "Corpo da postagem",
                     -1,
-                    "Título",
+                    //"Título",
+                    null, //Atualiza todos os valores, mesmo se nulo
                     1090
                 )
             )

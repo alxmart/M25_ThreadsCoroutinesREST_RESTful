@@ -7,6 +7,6 @@ data class Postagem(
     //val description: String,
     val body: String,
     val id: Int,
-    val title: String,
+    val title: String?,
     val userId: Int
 )
