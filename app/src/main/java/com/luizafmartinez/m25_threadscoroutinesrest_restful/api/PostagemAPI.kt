@@ -83,6 +83,6 @@ interface PostagemAPI {
     @DELETE("posts/{id}")   // Remover postagem
     suspend fun removerPostagem(
         @Path("id") id: Int
-    ): Response<Postagem>
+    ): Response<Unit>
 
 }
