@@ -1,6 +1,7 @@
 package com.luizafmartinez.m25_threadscoroutinesrest_restful.api
 
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Foto
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import retrofit2.Response
 import retrofit2.http.Body
@@ -84,5 +85,13 @@ interface PostagemAPI {
     suspend fun removerPostagem(
         @Path("id") id: Int
     ): Response<Unit>
+
+
+    @GET("photos/{id}")
+    suspend fun recuperarFoto(
+        @Path("id")  id: Int
+    ) : Response<Foto>
+
+
 
 }
