@@ -214,12 +214,19 @@ class MainActivity : AppCompatActivity() {
                 val filmeResposta = retorno.body() // Pega o corpo da Response
                 val listaFilmes = filmeResposta?.results
 
+                val pagina = filmeResposta?.page
+                val totalPaginas = filmeResposta?.total_pages
+                val totalDeFilmes = filmeResposta?.total_results
+
                 Log.i("info_tmdb", "CÓDIGO: ${retorno.code()}")
+                Log.i("info_tmdb", "Página: $pagina")
+                Log.i("info_tmdb", "Total de Páginas: $totalPaginas")
+                Log.i("info_tmdb", "Toal de Filmes: $totalDeFilmes")
 
                 listaFilmes?.forEach { filme ->
                     val id = filme.id
                     val titulo = filme.title
-                    Log.i("info_tmdb", "Postagem: $id - $titulo")
+                    Log.i("info_tmdb", "Filme: $id - $titulo")
                 }
             } else {
                 Log.i("info_tmdb", "Erro, CÓDIGO: ${retorno.code()}")
