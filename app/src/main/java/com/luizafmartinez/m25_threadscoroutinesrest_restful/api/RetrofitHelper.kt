@@ -17,5 +17,11 @@ class RetrofitHelper {
             .addConverterFactory( GsonConverterFactory.create() ) // Para JSON ou XML
             .build()
 
+        val filmeAPI = Retrofit.Builder()
+            .baseUrl("https://api.themoviedb.org/3/") // 3 = versão da API
+            .addConverterFactory( GsonConverterFactory.create() ) // Para JSON ou XML
+            .build()
+            .create( FilmeAPI::class.java )
+
     }
 }
