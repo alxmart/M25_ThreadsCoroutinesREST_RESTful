@@ -9,7 +9,7 @@ import retrofit2.http.Path
 
 interface FilmeAPI {
 
-    @GET("movie/popular")
+    @GET("movie/popular?api_key=${RetrofitHelper.API_KEY}")
     suspend fun recuperarFilmesPopulares(): Response<FilmeResposta>
 
 }
