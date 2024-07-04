@@ -31,6 +31,10 @@ class MainActivity : AppCompatActivity() {
         RetrofitHelper.retrofit
     }
 
+    private val filmeAPI by lazy {
+        RetrofitHelper.filmeAPI
+    }
+
     /*private val apiViaCEP by lazy {
         RetrofitHelper.apiViaCEP
     }*/
