@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.EnderecoAPI
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.FilmeAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.PostagemAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.FilmeResposta
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Foto
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.databinding.ActivityMainBinding
@@ -76,7 +78,11 @@ class MainActivity : AppCompatActivity() {
                 //salvarPostagem()
                 //atualizarPostagem()
                 //removerPostagem()
-                recuperarFotoUnica()
+                //recuperarFotoUnica()
+
+                // AI The Movie DB
+                recuperarFilmesPopulares()
+
             }
 
             /*
@@ -189,6 +195,38 @@ class MainActivity : AppCompatActivity() {
             */
         }
     }
+
+    private suspend fun recuperarFilmesPopulares() {
+
+        var retorno: Response<FilmeResposta>? = null
+
+        try {
+            retorno = filmeAPI.recuperarFilmesPopulares()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonplace", "Erro ao recuperar filmes populares.")
+        }
+
+        if (retorno != null) {
+
+            if (retorno.isSuccessful) {
+
+                val filmeResposta = retorno.body() // Pega o corpo da Response
+                val listaFilmes = filmeResposta?.results
+
+                Log.i("info_tmdb", "CÓDIGO: ${retorno.code()}")
+
+                listaFilmes?.forEach { filme ->
+                    val id = filme.id
+                    val titulo = filme.title
+                    Log.i("info_tmdb", "Postagem: $id - $titulo")
+                }
+            } else {
+                Log.i("info_tmdb", "Erro, CÓDIGO: ${retorno.code()}")
+            }
+        }
+    }
+
 
     private suspend fun recuperarFotoUnica() {
 
