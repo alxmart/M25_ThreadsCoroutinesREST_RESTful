@@ -219,8 +219,11 @@ class MainActivity : AppCompatActivity() {
 
                 val titulo = filmeDetalhes?.title
                 val listaGeneros = filmeDetalhes?.genres
+                val pais = filmeDetalhes?.production_countries?.get(0)
+
                 Log.i("info_tmdb", "CÓDIGO: ${retorno.code()}")
                 Log.i("info_tmdb", "Título: $titulo")
+                Log.i("info_tmdb", "País: $pais")
 
                 listaGeneros?.forEach { genero ->
                     Log.i("info_tmdb", "Gênero: $genero")
