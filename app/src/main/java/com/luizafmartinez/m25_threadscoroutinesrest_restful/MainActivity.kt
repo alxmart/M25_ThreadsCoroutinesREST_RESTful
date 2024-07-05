@@ -200,6 +200,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun recuperarFilmePesquisa() {
+
+        var retorno: Response<FilmeResposta>? = null
+
+        try {
+            retorno = filmeAPI.recuperarFilmePesquisa("hocus")
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_jsonplace", "Erro ao recuperar filmes pesquisa.")
+        }
+
+        if (retorno != null) {
+
+            if (retorno.isSuccessful) {
+
+                val filmeResposta = retorno.body() // Pega o corpo da Response
+                val listaFilmes = filmeResposta?.results
+
+                Log.i("info_tmdb", "CÓDIGO: ${retorno.code()}")
+
+                listaFilmes?.forEach { filme ->
+                    val id = filme.id
+                    val titulo = filme.title
+                    Log.i("info_tmdb", "Filme: $id - $titulo")
+                }
+            } else {
+                Log.i("info_tmdb", "Erro, CÓDIGO: ${retorno.code()}")
+            }
+        }
+    }
+
     private suspend fun recuperarDetalhesFilme() {
 
         var retorno: Response<FilmeDetalhes>? = null
