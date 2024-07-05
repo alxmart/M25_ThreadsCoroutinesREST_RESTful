@@ -85,7 +85,8 @@ class MainActivity : AppCompatActivity() {
                 // API The Movie DB
                 //--------------------------------
                 //recuperarFilmesPopulares()
-                recuperarDetalhesFilme()
+                //recuperarDetalhesFilme()
+                recuperarFilmePesquisa()
 
             }
 
