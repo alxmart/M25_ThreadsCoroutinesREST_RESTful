@@ -7,6 +7,7 @@ import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface FilmeAPI {
 
@@ -17,6 +18,11 @@ interface FilmeAPI {
     suspend fun recuperarDetalhesFilme(
         @Path("movie_id") idFilme: Int
     ): Response<FilmeDetalhes>
+
+    @GET("search/movie?api_key=${RetrofitHelper.APIGO}")
+    suspend fun recuperarFilmePesquisa(
+        @Query("query") pesquisa: String
+    ): Response<FilmeResposta>
 
 }
 
