@@ -8,6 +8,8 @@ class RetrofitHelper {
     companion object {
 
         const val APIGO = "8757e6fe8d068d87174a9fd7d132912a"
+        const val BASE_URL = "https://api.themoviedb.org/3/"
+        const val BASE_URL_IMAGE = "https://image.tmdb.org/t/p/"
 
         val apiViaCEP = Retrofit.Builder()
             .baseUrl("https://viacep.com.br/")
@@ -20,7 +22,7 @@ class RetrofitHelper {
             .build()
 
         val filmeAPI = Retrofit.Builder()
-            .baseUrl("https://api.themoviedb.org/3/") // 3 = versão da API
+            .baseUrl(BASE_URL) // 3 = versão da API
             .addConverterFactory( GsonConverterFactory.create() ) // Para JSON ou XML
             .build()
             .create( FilmeAPI::class.java )

@@ -221,9 +221,20 @@ class MainActivity : AppCompatActivity() {
                 val listaGeneros = filmeDetalhes?.genres
                 val pais = filmeDetalhes?.production_countries?.get(0)
 
+                // https://image.tmdb.org/t/p/ + w500 + /1E5baAaEse26fej7uHcjOgEE2t2.jpg
+                val nomeImagem = filmeDetalhes?.backdrop_path
+
+                val url = RetrofitHelper.BASE_URL_IMAGE + "w1280" + nomeImagem
+
+                withContext(Dispatchers.Main) {
+                    Picasso.get()
+                        .load( url )
+                        .into( binding.imageFoto )
+                }
+
                 Log.i("info_tmdb", "CÓDIGO: ${retorno.code()}")
                 Log.i("info_tmdb", "Título: $titulo")
-                Log.i("info_tmdb", "País: $pais")
+                Log.i("info_tmdb", "País: ${pais?.name}")
 
                 listaGeneros?.forEach { genero ->
                     Log.i("info_tmdb", "Gênero: $genero")
