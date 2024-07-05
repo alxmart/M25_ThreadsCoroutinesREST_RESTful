@@ -1,6 +1,7 @@
 package com.luizafmartinez.m25_threadscoroutinesrest_restful.api
 
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Filme
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.FilmeDetalhes
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.FilmeResposta
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
 import retrofit2.Response
@@ -13,7 +14,9 @@ interface FilmeAPI {
     suspend fun recuperarFilmesPopulares(): Response<FilmeResposta>
 
     @GET("movie/{movie_id}?api_key=${RetrofitHelper.APIGO}")
-    suspend fun recuperarDetalhesFilme(): Response<FilmeResposta>
+    suspend fun recuperarDetalhesFilme(
+        @Path("movie_id") idFilme: Int
+    ): Response<FilmeDetalhes>
 
 }
 
