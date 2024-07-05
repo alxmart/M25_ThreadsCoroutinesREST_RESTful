@@ -10,6 +10,7 @@ import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.PostagemAPI
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.RetrofitHelper
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Comentario
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Endereco
+import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.FilmeDetalhes
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.FilmeResposta
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Foto
 import com.luizafmartinez.m25_threadscoroutinesrest_restful.api.model.Postagem
@@ -80,8 +81,11 @@ class MainActivity : AppCompatActivity() {
                 //removerPostagem()
                 //recuperarFotoUnica()
 
-                // AI The Movie DB
-                recuperarFilmesPopulares()
+                //--------------------------------
+                // API The Movie DB
+                //--------------------------------
+                //recuperarFilmesPopulares()
+                recuperarDetalhesFilme()
 
             }
 
@@ -196,6 +200,37 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private suspend fun recuperarDetalhesFilme() {
+
+        var retorno: Response<FilmeDetalhes>? = null
+
+        try {
+            retorno = filmeAPI.recuperarDetalhesFilme(436270)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Log.i("info_tmdb", "Erro ao recuperar detalhes filme.")
+        }
+
+        if (retorno != null) {
+
+            if (retorno.isSuccessful) {
+
+                val filmeDetalhes = retorno.body() // Pega o corpo da Response
+
+                val titulo = filmeDetalhes?.title
+                val listaGeneros = filmeDetalhes?.genres
+                Log.i("info_tmdb", "CÓDIGO: ${retorno.code()}")
+                Log.i("info_tmdb", "Título: $titulo")
+
+                listaGeneros?.forEach { genero ->
+                    Log.i("info_tmdb", "Gênero: $genero")
+                }
+            } else {
+                Log.i("info_tmdb", "Erro, CÓDIGO: ${retorno.code()}")
+            }
+        }
+    }
+
     private suspend fun recuperarFilmesPopulares() {
 
         var retorno: Response<FilmeResposta>? = null
@@ -233,7 +268,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private suspend fun recuperarFotoUnica() {
 
