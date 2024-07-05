@@ -12,6 +12,9 @@ interface FilmeAPI {
     @GET("movie/popular?api_key=${RetrofitHelper.API_KEY}")
     suspend fun recuperarFilmesPopulares(): Response<FilmeResposta>
 
+    @GET("movie/{movie_id}?api_key=${RetrofitHelper.API_KEY}")
+    suspend fun recuperarDetalhesFilme(): Response<FilmeResposta>
+
 }
 
 
