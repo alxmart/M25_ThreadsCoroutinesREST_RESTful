@@ -9,10 +9,10 @@ import retrofit2.http.Path
 
 interface FilmeAPI {
 
-    @GET("movie/popular?api_key=${RetrofitHelper.API_KEY}")
+    @GET("movie/popular?api_key=${RetrofitHelper.APIGO}")
     suspend fun recuperarFilmesPopulares(): Response<FilmeResposta>
 
-    @GET("movie/{movie_id}?api_key=${RetrofitHelper.API_KEY}")
+    @GET("movie/{movie_id}?api_key=${RetrofitHelper.APIGO}")
     suspend fun recuperarDetalhesFilme(): Response<FilmeResposta>
 
 }

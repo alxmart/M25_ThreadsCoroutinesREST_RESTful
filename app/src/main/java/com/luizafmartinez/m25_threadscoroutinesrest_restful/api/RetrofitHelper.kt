@@ -7,7 +7,7 @@ class RetrofitHelper {
 
     companion object {
 
-        const val API_KEY = "8757e6fe8d068d87174a9fd7d132912a"
+        const val APIGO = "8757e6fe8d068d87174a9fd7d132912a"
 
         val apiViaCEP = Retrofit.Builder()
             .baseUrl("https://viacep.com.br/")
